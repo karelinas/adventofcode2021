@@ -26,7 +26,7 @@ def diagonal_line(x1, y1, x2, y2):
 lines = [
     (*map(int, pos1.split(",")), *map(int, pos2.split(",")))
     for pos1, pos2 in [
-        [pos for pos in line.split(" -> ")] for line in stdin.readlines()
+        line.split(" -> ") for line in stdin.readlines()
     ]
 ]
 
