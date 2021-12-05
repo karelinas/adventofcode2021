@@ -2,9 +2,11 @@ from collections import Counter
 from sys import stdin
 
 
+def is_straight_line(x1, y1, x2, y2):
+    return x1 == x2 or y1 == y2
+
+
 def straight_line(x1, y1, x2, y2):
-    if x1 != x2 and y1 != y2:
-        return None
     return [
         (x, y)
         for x in range(min(x1, x2), max(x1, x2) + 1)
@@ -28,10 +30,13 @@ lines = [
     ]
 ]
 
-straight_lines = filter(None, (straight_line(*line) for line in lines))
+straight_lines = [straight_line(*line) for line in lines if is_straight_line(*line)]
 grid1 = Counter(coord for line in straight_lines for coord in line)
 print(sum(val >= 2 for val in grid1.values()))
 
-both_lines = [straight_line(*line) or diagonal_line(*line) for line in lines]
+both_lines = [
+    straight_line(*line) if is_straight_line(*line) else diagonal_line(*line)
+    for line in lines
+]
 grid2 = Counter(coord for line in both_lines for coord in line)
 print(sum(val >= 2 for val in grid2.values()))
