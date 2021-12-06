@@ -14,8 +14,8 @@ def next_generation(current_generation):
 
 def iterated_function(f, *, start, iterations):
     return (
-        f(start)
-        if iterations == 1
+        start
+        if iterations == 0
         else iterated_function(f, start=f(start), iterations=iterations - 1)
     )
 
