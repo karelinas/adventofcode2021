@@ -1,6 +1,8 @@
 from collections import Counter
 from sys import stdin
 
+from util import iterated_function
+
 
 def next_generation(current_generation):
     reproduction_count = current_generation[0]
@@ -10,14 +12,6 @@ def next_generation(current_generation):
     reproducers = Counter({6: reproduction_count})
     babies = Counter({8: reproduction_count})
     return non_reproducers + reproducers + babies
-
-
-def iterated_function(f, *, start, iterations):
-    return (
-        start
-        if iterations == 0
-        else iterated_function(f, start=f(start), iterations=iterations - 1)
-    )
 
 
 def population(generation):
