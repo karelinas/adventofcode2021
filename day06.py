@@ -12,8 +12,12 @@ def next_generation(current_generation):
     return non_reproducers + reproducers + babies
 
 
-def iterated_function(n, f, *args):
-    return f(*args) if n == 1 else iterated_function(n - 1, f, f(*args))
+def iterated_function(f, *, start, iterations):
+    return (
+        f(start)
+        if iterations == 1
+        else iterated_function(f, start=f(start), iterations=iterations - 1)
+    )
 
 
 def fish_count(generation):
@@ -21,8 +25,10 @@ def fish_count(generation):
 
 
 generation_0 = Counter(int(n) for n in stdin.read().split(","))
-generation_80 = iterated_function(80, next_generation, generation_0)
-generation_256 = iterated_function(256 - 80, next_generation, generation_80)
+generation_80 = iterated_function(next_generation, start=generation_0, iterations=80)
+generation_256 = iterated_function(
+    next_generation, start=generation_80, iterations=256 - 80
+)
 
 print(fish_count(generation_80))
 print(fish_count(generation_256))
