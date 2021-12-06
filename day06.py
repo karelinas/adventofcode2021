@@ -20,7 +20,7 @@ def iterated_function(f, *, start, iterations):
     )
 
 
-def fish_count(generation):
+def population(generation):
     return sum(generation.values())
 
 
@@ -30,5 +30,5 @@ generation_256 = iterated_function(
     next_generation, start=generation_80, iterations=256 - 80
 )
 
-print(fish_count(generation_80))
-print(fish_count(generation_256))
+print(population(generation_80))
+print(population(generation_256))
