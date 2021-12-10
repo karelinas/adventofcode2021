@@ -16,22 +16,22 @@ def parse(line):
     return stack, None
 
 
-def syntax_checker_score(line):
+def syntax_checker_score(character):
     point_values = {")": 3, "]": 57, "}": 1197, ">": 25137}
-    _, unexpected = parse(line)
-    return point_values[unexpected] if unexpected else 0
+    return point_values[character]
 
 
-def autocomplete_score(line):
+def autocomplete_score(open_chunks):
     point_values = {"(": 1, "[": 2, "{": 3, "<": 4}
-    leftovers, _ = parse(line)
-    return reduce(lambda x, y: x * 5 + point_values[y], reversed(leftovers), 0)
+    return reduce(lambda x, y: x * 5 + point_values[y], reversed(open_chunks), 0)
 
 
-lines = [line.strip() for line in stdin]
-print(sum(syntax_checker_score(line) for line in lines))
+lines = [parse(line.strip()) for line in stdin]
+print(sum(syntax_checker_score(unexpected) for _, unexpected in lines if unexpected))
 print(
     median(
-        autocomplete_score(line) for line in lines if syntax_checker_score(line) == 0
+        autocomplete_score(open_chunks)
+        for open_chunks, unexpected in lines
+        if not unexpected
     )
 )
