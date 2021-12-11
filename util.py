@@ -35,3 +35,22 @@ def iterated_function(f, *, start, iterations):
         if iterations == 0
         else iterated_function(f, start=f(start), iterations=iterations - 1)
     )
+
+
+
+def neighbors(x, y):
+    """
+    Returns the neighboring coordinates for (x, y), including diagonals.
+    """
+    # fmt: off
+    return [
+        (x-1, y-1), (x  , y-1), (x+1, y-1),
+        (x-1, y  ),             (x+1, y  ),
+        (x-1, y+1), (x  , y+1), (x+1, y+1),
+    ]
+
+def is_in_grid(grid, x, y):
+    """
+    Returns True if (x, y) is within the bounds of the two-dimensional array grid.
+    """
+    return 0 <= y < len(grid) and 0 <= x < len(grid[y])
