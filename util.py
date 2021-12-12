@@ -1,3 +1,12 @@
+def function_iterations(f, *, start):
+    """
+    Composes a function with itself many times and yields the intermediate results.
+    """
+    while True:
+        yield start
+        start = f(start)
+
+
 def iterated_function(f, *, start, iterations):
     """
     Composes a function with itself many times.
@@ -37,7 +46,6 @@ def iterated_function(f, *, start, iterations):
     )
 
 
-
 def neighbors(x, y):
     """
     Returns the neighboring coordinates for (x, y), including diagonals.
@@ -48,6 +56,8 @@ def neighbors(x, y):
         (x-1, y  ),             (x+1, y  ),
         (x-1, y+1), (x  , y+1), (x+1, y+1),
     ]
+    # fmt: on
+
 
 def is_in_grid(grid, x, y):
     """
