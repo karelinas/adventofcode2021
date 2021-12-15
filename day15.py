@@ -7,28 +7,28 @@ from util import is_in_grid, adjacent, transpose
 
 def dijkstra(edges, start, finish):
     queue = []
-    distances = {k: math.inf for k in edges.keys()}
+    path_risks = {k: math.inf for k in edges.keys()}
     heappush(queue, (0, start))
-    distances[start] = 0
+    path_risks[start] = 0
     seen = set()
 
     while queue:
-        distance, current = heappop(queue)
+        risk_to_current, current = heappop(queue)
         seen.add(current)
 
         if current == finish:
-            return distances[finish]
+            return risk_to_current
 
-        for destination, risk in edges[current].items():
+        for destination, destination_risk in edges[current].items():
             if destination in seen:
                 continue
-            new_distance = distance + risk
-            if new_distance < distances[destination]:
-                distances[destination] = new_distance
-                heappush(queue, (new_distance, destination))
+            risk_to_destination = risk_to_current + destination_risk
+            if risk_to_destination < path_risks[destination]:
+                path_risks[destination] = risk_to_destination
+                heappush(queue, (risk_to_destination, destination))
 
 
-def make_edges(grid):
+def make_graph(grid):
     return {
         (x, y): {
             (i, j): grid[j][i] for i, j in adjacent(x, y) if is_in_grid(grid, i, j)
@@ -56,13 +56,13 @@ def expanded_grid(grid):
 
 # Part 1
 grid_1 = [[int(ch) for ch in line.strip()] for line in stdin]
-edges_1 = make_edges(grid_1)
 start = (0, 0)
+edges_1 = make_graph(grid_1)
 finish_1 = (len(grid_1[-1]) - 1, len(grid_1) - 1)
 print(dijkstra(edges_1, start, finish_1))
 
 # Part 2
 grid_2 = expanded_grid(grid_1)
-edges_2 = make_edges(grid_2)
+edges_2 = make_graph(grid_2)
 finish_2 = (len(grid_2[-1]) - 1, len(grid_2) - 1)
 print(dijkstra(edges_2, start, finish_2))
