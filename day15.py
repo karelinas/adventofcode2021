@@ -1,7 +1,5 @@
 import math
-from collections import defaultdict
 from heapq import heappop, heappush
-from itertools import chain
 from sys import stdin
 
 from util import is_in_grid, adjacent, transpose
@@ -40,19 +38,16 @@ def make_edges(grid):
     }
 
 
-def sideways_expansion(grid):
+def line_continuation(line, times=4):
     return [
-        list(
-            chain(
-                line,
-                *[
-                    [(line[n] + m - 1) % 9 + 1 for n in range(len(line))]
-                    for m in range(1, 5)
-                ]
-            )
-        )
-        for line in grid
+        (risk + tile_offset - 1) % 9 + 1
+        for tile_offset in range(1, times + 1)
+        for risk in line
     ]
+
+
+def sideways_expansion(grid):
+    return [line + line_continuation(line) for line in grid]
 
 
 def expanded_grid(grid):
