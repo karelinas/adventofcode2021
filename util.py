@@ -46,6 +46,18 @@ def iterated_function(f, *, start, iterations):
     )
 
 
+def adjacent(x, y):
+    """
+    Returns the neighboring coordinates for (x, y), excluding diagonals.
+    """
+    return [
+        (x, y - 1),
+        (x - 1, y),
+        (x + 1, y),
+        (x, y + 1),
+    ]
+
+
 def neighbors(x, y):
     """
     Returns the neighboring coordinates for (x, y), including diagonals.
@@ -64,3 +76,10 @@ def is_in_grid(grid, x, y):
     Returns True if (x, y) is within the bounds of the two-dimensional array grid.
     """
     return 0 <= y < len(grid) and 0 <= x < len(grid[y])
+
+
+def transpose(grid):
+    """
+    Transposes the given two dimensional grid.
+    """
+    return list(map(list, zip(*grid)))
