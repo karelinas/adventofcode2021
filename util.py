@@ -83,3 +83,10 @@ def transpose(grid):
     Transposes the given two dimensional grid.
     """
     return list(map(list, zip(*grid)))
+
+
+def sign(number: int):
+    """
+    Returns the sign of a number.
+    """
+    return -1 if number < 0 else 1
